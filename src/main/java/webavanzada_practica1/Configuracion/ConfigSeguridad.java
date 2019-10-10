@@ -1,4 +1,4 @@
-package com.example.webavanzada_practica1.Configuracion;
+package webavanzada_practica1.Configuracion;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,5 +15,5 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class ConfigSeguridad extends WebSecurityConfigurerAdapter {
 
     //Configuracion JPA para implementar Servicio Usuario
-    @Autowired
+    //@Autowired
 }
