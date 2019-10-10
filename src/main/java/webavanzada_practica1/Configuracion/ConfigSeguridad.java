@@ -16,4 +16,5 @@ public class ConfigSeguridad extends WebSecurityConfigurerAdapter {
 
     //Configuracion JPA para implementar Servicio Usuario
     //@Autowired
+
 }
