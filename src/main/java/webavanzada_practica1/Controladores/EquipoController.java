@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import webavanzada_practica1.Entidades.Equipo;
 import webavanzada_practica1.Entidades.Familia;
+import webavanzada_practica1.Servicios.AlquilerService;
+import webavanzada_practica1.Servicios.EquipoService;
+import webavanzada_practica1.Servicios.FamiliaService;
+import webavanzada_practica1.Servicios.SubirArchivoService;
 
 import java.security.Principal;
 import java.util.Locale;
@@ -19,16 +23,16 @@ import java.util.Locale;
 public class EquipoController {
 
     @Autowired
-    private AlquilerServices alquilerServices;
+    private AlquilerService alquilerService;
 
     @Autowired
-    private EquipoServices equipoServices;
+    private EquipoService equipoService;
 
     @Autowired
     private FamiliaService familiaService;
 
     @Autowired
-    private FileUploadServices fileUploadServices;
+    private SubirArchivoService subirArchivoService;
 
     @Autowired
     private MessageSource messageSource;
@@ -48,7 +52,7 @@ public class EquipoController {
         model.addAttribute("administradori18n", messageSource.getMessage("administradori18n", null, locale));
         model.addAttribute("usuariosi18n", messageSource.getMessage("usuariosi18n", null, locale));
 
-        model.addAttribute("alquileres", alquilerServices.listarAlquileres());
+        model.addAttribute("alquileres", alquilerService.listarAlquileres());
 
         model.addAttribute("familias", familiaService.listarFamilias());
 
@@ -79,7 +83,7 @@ public class EquipoController {
         model.addAttribute("opcionei18n", messageSource.getMessage("opcionei18n", null, locale));
         model.addAttribute("titulo", "Electrodomesticos CXA");
 
-        model.addAttribute("equipos",equipoServices.listarEquipos());
+        model.addAttribute("equipos",equipoService.listarEquipos());
 
         model.addAttribute("usuario", principal.getName());
 
@@ -111,14 +115,14 @@ public class EquipoController {
     @RequestMapping(value = "/crear", method = RequestMethod.POST)
     public String crearEquipo(@RequestParam(name = "files") MultipartFile[] files, @RequestParam(name = "nombre") String nombre, @RequestParam(name = "marca") String marca, @RequestParam(name = "cantidadExistencia") int cantidadExistencia, @RequestParam(name = "costoAlquilerPorDia") int costoAlquilerPorDia, @RequestParam(name = "familia", required = false) Long idFamilia, @RequestParam(name = "subFamilia", required = false) Long idSubFamilia ){
 
-        String nombreDeLaFoto = fileUploadServices.almacenarAndDepurarImagen(files,uploadDirectory);
+        String nombreDeLaFoto = subirArchivoService.almacenarAndDepurarImagen(files,uploadDirectory);
 
         Familia familia = familiaService.encontrarFamiliaPorId(idFamilia);
         Familia subFamiliaToFind = familiaService.encontrarFamiliaPorId(idSubFamilia);
 
         Equipo equipoToCreate = new Equipo(nombre,marca,nombreDeLaFoto,cantidadExistencia,costoAlquilerPorDia,familia,subFamiliaToFind);
 
-        equipoServices.crearEquipo(equipoToCreate);
+        equipoService.crearEquipo(equipoToCreate);
 
         return "redirect:/equipo/";
     }
@@ -139,7 +143,7 @@ public class EquipoController {
         model.addAttribute("botonguardari18n", messageSource.getMessage("botonguardari18n", null, locale));
         model.addAttribute("botoncancelari18n", messageSource.getMessage("botoncancelari18n", null, locale));
 
-        Equipo equipoToEdit = equipoServices.encontrarEquipoPorId(id);
+        Equipo equipoToEdit = equipoService.encontrarEquipoPorId(id);
 
         model.addAttribute("equipo",equipoToEdit);
         model.addAttribute("familias", familiaService.listarFamilias());
@@ -151,9 +155,9 @@ public class EquipoController {
     @RequestMapping("/editar")
     public String editarEquipo(@RequestParam(name = "files") MultipartFile[] files, @RequestParam(name = "id") long id, @RequestParam(name = "nombre") String nombre, @RequestParam(name = "marca") String marca, @RequestParam(name = "cantidadExistencia") int cantidadExistencia,@RequestParam(name = "costoAlquilerPorDia") int costoAlquilerPorDia, @RequestParam(name = "familia", required = false) Long idFamilia, @RequestParam(name = "subFamilia", required = false) Long subFamilia ){
 
-        String imagenEquipo = fileUploadServices.almacenarAndDepurarImagen(files,uploadDirectory);
+        String imagenEquipo = subirArchivoService.almacenarAndDepurarImagen(files,uploadDirectory);
 
-        Equipo equipoToEdit = equipoServices.encontrarEquipoPorId(id);
+        Equipo equipoToEdit = equipoService.encontrarEquipoPorId(id);
 
         Familia familiaToEdit = familiaService.encontrarFamiliaPorId(idFamilia);
 
@@ -168,7 +172,7 @@ public class EquipoController {
         equipoToEdit.setFamilia(familiaToEdit);
         equipoToEdit.setSubFamilia(subFamiliaToEdit);
 
-        equipoServices.crearEquipo(equipoToEdit);
+        equipoService.crearEquipo(equipoToEdit);
 
         return "redirect:/equipo/";
     }
@@ -177,7 +181,7 @@ public class EquipoController {
     @RequestMapping("/borrar")
     public String eliminarEquipo(@RequestParam(name = "id") long id){
 
-        equipoServices.eliminarEquipo(id);
+        equipoService.eliminarEquipo(id);
 
         return "redirect:/equipo/";
     }

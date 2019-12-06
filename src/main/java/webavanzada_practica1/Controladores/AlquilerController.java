@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import webavanzada_practica1.Entidades.Alquiler;
 import webavanzada_practica1.Entidades.Cliente;
 import webavanzada_practica1.Entidades.Equipo;
+import webavanzada_practica1.Servicios.AlquilerService;
+import webavanzada_practica1.Servicios.ClienteService;
+import webavanzada_practica1.Servicios.EquipoService;
 
 import java.security.Principal;
 import java.util.*;
@@ -21,13 +24,13 @@ public class AlquilerController {
 
 
     @Autowired
-    private AlquilerServices alquilerServices;
+    private AlquilerService alquilerService;
 
     @Autowired
-    private EquipoServices equipoServices;
+    private EquipoService equipoService;
 
     @Autowired
-    private ClienteServices clienteServices;
+    private ClienteService clienteService;
 
     @Autowired
     private MessageSource messageSource;
@@ -55,7 +58,7 @@ public class AlquilerController {
         model.addAttribute("totalalquileri18n", messageSource.getMessage("totalalquileri18n", null, locale));
         model.addAttribute("opcionei18n", messageSource.getMessage("opcionei18n", null, locale));
 
-        model.addAttribute("alquileres", alquilerServices.listarAlquileres());
+        model.addAttribute("alquileres", alquilerService.listarAlquileres());
         model.addAttribute("usuario", principal.getName());
         return "/freemarker/alquiler";
     }
@@ -74,8 +77,8 @@ public class AlquilerController {
         model.addAttribute("titulo", "Electrodomesticos CXA");
 
         // Mando a la vista los clientes y equipos para crear alquiler
-        model.addAttribute("clientes", clienteServices.listarClientes());
-        model.addAttribute("equipos", equipoServices.listarEquipos());
+        model.addAttribute("clientes", clienteService.listarClientes());
+        model.addAttribute("equipos", equipoService.listarEquipos());
 
         return "/freemarker/crearalquiler";
     }
@@ -101,23 +104,23 @@ public class AlquilerController {
         for (Long equipo : idEquipos) {
 
 
-            Equipo equipoAlquilado = equipoServices.encontrarEquipoPorId(equipo);
+            Equipo equipoAlquilado = equipoService.encontrarEquipoPorId(equipo);
 
             equipoAlquilado.getFamilia().setDiasAlquiler(diasAlquilados);
             //Existencia
             equipoAlquilado.setCantidadExistencia(equipoAlquilado.getCantidadExistencia() - 1);
 
             total  += dias * equipoAlquilado.getCostoAlquilerPorDia();
-            equipoServices.crearEquipo(equipoAlquilado);
+            equipoService.crearEquipo(equipoAlquilado);
 
             listaEquiposAlquilados.add(equipoAlquilado);
         }
 
-        Cliente clienteQueAlquila = clienteServices.encontrarClientePorId(idCliente);
+        Cliente clienteQueAlquila = clienteService.encontrarClientePorId(idCliente);
 
         Alquiler alquilerToCreate = new Alquiler(fecha, fechaEntrega, clienteQueAlquila, listaEquiposAlquilados,total);
 
-        alquilerServices.crearAlquiler(alquilerToCreate);
+        alquilerService.crearAlquiler(alquilerToCreate);
 
         return "redirect:/alquiler/";
     }
@@ -126,7 +129,7 @@ public class AlquilerController {
     @RequestMapping( value = "/mostrar")
     public String mostrarEquiposAlquilados(Model model, Locale locale, @RequestParam(name = "id") long id){
 
-        Alquiler alquilerToShow = alquilerServices.encontrarAlquilerPorId(id);
+        Alquiler alquilerToShow = alquilerService.encontrarAlquilerPorId(id);
 
         model.addAttribute("titulo", "Electrodomesticos CXA");
         model.addAttribute("clientesi18n", messageSource.getMessage("clientesi18n", null, locale));
@@ -155,7 +158,7 @@ public class AlquilerController {
     @RequestMapping("/borrar")
     public String eliminarAlquiler(@RequestParam(name = "id") long id) {
 
-         alquilerServices.eliminarAlquiler(id);
+         alquilerService.eliminarAlquiler(id);
 
         return "redirect:/alquiler/";
     }

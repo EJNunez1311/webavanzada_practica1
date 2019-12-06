@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import webavanzada_practica1.Entidades.Cliente;
+import webavanzada_practica1.Servicios.AlquilerService;
+import webavanzada_practica1.Servicios.ClienteService;
+import webavanzada_practica1.Servicios.SubirArchivoService;
 
 import java.security.Principal;
 import java.util.Locale;
@@ -19,14 +22,14 @@ import java.util.Locale;
 public class ClienteController {
 
     @Autowired
-    private ClienteServices clienteServices;
+    private ClienteService clienteService;
 
     @Autowired
-    private AlquilerServices alquilerServices;
+    private AlquilerService alquilerService;
 
     // Para cargar imagenes y archivos
     @Autowired
-    private FileUploadServices fileUploadServices;
+    private SubirArchivoService subirArchivoService;
 
     //Necesaaria para la internalizacion
     @Autowired
@@ -56,7 +59,7 @@ public class ClienteController {
         model.addAttribute("fotoclientei18n", messageSource.getMessage("fotoclientei18n", null, locale));
         model.addAttribute("opcionei18n", messageSource.getMessage("opcionei18n", null, locale));
 
-        model.addAttribute("clientes", clienteServices.listarClientes());
+        model.addAttribute("clientes", clienteService.listarClientes());
 
         //Mnadando nombre de usuario a la vista
         model.addAttribute("usuario", principal.getName());
@@ -87,10 +90,10 @@ public class ClienteController {
     public String crearCliente(@RequestParam(name = "files") MultipartFile[] files, @RequestParam(name = "nombre") String nombre, @RequestParam(name = "apellido") String apellido, @RequestParam(name = "cedula") String cedula, @RequestParam(name = "direccion") String direccion, @RequestParam(name = "telefono") String telefono){
 
         //Devuelve un string con el nombre de la imagen insertada en el formulario
-        String nombreDeLaFoto = fileUploadServices.almacenarAndDepurarImagen(files,uploadDirectory);
+        String nombreDeLaFoto = subirArchivoService.almacenarAndDepurarImagen(files,uploadDirectory);
 
         Cliente cliente = new Cliente(nombre,apellido,cedula,direccion,telefono,nombreDeLaFoto);
-        clienteServices.crearCliente(cliente);
+        clienteService.crearCliente(cliente);
 
         return "redirect:/cliente/";
     }
@@ -99,7 +102,7 @@ public class ClienteController {
     @RequestMapping(value = "/edicion" )
     public String edicionCliente(Model model, Locale locale,  @RequestParam(name = "id") long id ){
 
-        Cliente clienteToEdit = clienteServices.encontrarClientePorId(id);
+        Cliente clienteToEdit = clienteService.encontrarClientePorId(id);
 
         model.addAttribute("cliente",clienteToEdit);
         model.addAttribute("titulo", "Electrodomesticos CXA");
@@ -121,10 +124,10 @@ public class ClienteController {
     public String editarCliente(@RequestParam(name = "files") MultipartFile[] files, @RequestParam(name = "id") long id,@RequestParam(name = "nombre") String nombre, @RequestParam(name = "apellido") String apellido, @RequestParam(name = "cedula") String cedula, @RequestParam(name = "direccion") String direccion,  @RequestParam(name = "telefono") String telefono){
 
 
-        String fotoName = fileUploadServices.almacenarAndDepurarImagen(files,uploadDirectory);
+        String fotoName = subirArchivoService.almacenarAndDepurarImagen(files,uploadDirectory);
 
 
-        Cliente clienteToEdit = clienteServices.encontrarClientePorId(id);
+        Cliente clienteToEdit = clienteService.encontrarClientePorId(id);
 
         clienteToEdit.setApellido(apellido);
         clienteToEdit.setCedula(cedula);
@@ -140,7 +143,7 @@ public class ClienteController {
     @RequestMapping( value = "/mostrar")
     public String mostrarHistorialAlquileres(Model model, Locale locale, @RequestParam(name = "id") long id){
 
-        Cliente clienteToShow = clienteServices.encontrarClientePorId(id);
+        Cliente clienteToShow = clienteService.encontrarClientePorId(id);
 
         model.addAttribute("titulo", "Electrodomesticos CXA");
 
@@ -156,7 +159,7 @@ public class ClienteController {
         model.addAttribute("fechaalquileri18n", messageSource.getMessage("fechaalquileri18n", null, locale));
         model.addAttribute("fechaentregaalquileri18n", messageSource.getMessage("fechaentregaalquileri18n", null, locale));
         model.addAttribute("cliente", clienteToShow);
-        model.addAttribute("alquileres", alquilerServices.listarAlquileres());
+        model.addAttribute("alquileres", alquilerService.listarAlquileres());
 
         return "/freemarker/mostraralquileres";
     }
@@ -165,7 +168,7 @@ public class ClienteController {
     public String eliminarCliente(@RequestParam(name = "id") long id){
 
         // Aqui elimino el cliente mandandole el id obtenido mediante la url en el requesparam
-        clienteServices.eliminarCliente(id);
+        clienteService.eliminarCliente(id);
 
         return "redirect:/cliente/";
     }

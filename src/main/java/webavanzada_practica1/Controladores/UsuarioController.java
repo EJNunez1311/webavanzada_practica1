@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import webavanzada_practica1.Entidades.Cliente;
 import webavanzada_practica1.Entidades.Familia;
+import webavanzada_practica1.Entidades.Rol;
+import webavanzada_practica1.Entidades.Usuario;
+import webavanzada_practica1.Servicios.ClienteService;
+import webavanzada_practica1.Servicios.EquipoService;
+import webavanzada_practica1.Servicios.FamiliaService;
+import webavanzada_practica1.Servicios.UsuarioService;
 
 import java.security.Principal;
 import java.util.*;
@@ -19,13 +25,13 @@ import java.util.*;
     public class UsuarioController {
 
         @Autowired
-        private UsuarioServices usuarioServices;
+        private UsuarioService usuarioService;
 
         @Autowired
-        private ClienteServices clienteServices;
+        private ClienteService clienteService;
 
         @Autowired
-        private EquipoServices equipoServices;
+        private EquipoService equipoService;
 
         @Autowired
         private FamiliaService familiaService;
@@ -41,8 +47,8 @@ import java.util.*;
 
             Cliente clientePorDefecto = new Cliente("Johanna","Rodriguez","054-0148526-7","Moca","829-785-9656","foto.jpg");
             Cliente clientePorDefecto2 = new Cliente("Edgar","Nunez","402-2335865-9","Calle 9 Gurabo","809-962-5658","foto1.jpg");
-            clienteServices.crearCliente(clientePorDefecto);
-            clienteServices.crearCliente(clientePorDefecto2);
+            clienteService.crearCliente(clientePorDefecto);
+            clienteService.crearCliente(clientePorDefecto2);
 
             Familia familiaPorDefecto = new Familia("Electrodomestico",false);
 
@@ -74,7 +80,7 @@ import java.util.*;
 
             Equipo equipoPorDefecto = new Equipo("TV Smart 55","Samsung","tv.jpg",7,250,familiaPorDefecto,subFamiliaPorDefecto);
 
-            equipoServices.crearEquipo(equipoPorDefecto);
+            equipoService.crearEquipo(equipoPorDefecto);
 
             return "redirect:/usuario/";
         }
@@ -97,7 +103,7 @@ import java.util.*;
             model.addAttribute("nombreusuarioi18n", messageSource.getMessage("nombreusuarioi18n", null, locale));
             model.addAttribute("activousuarioi18n", messageSource.getMessage("activousuarioi18n", null, locale));
 
-            model.addAttribute("usuarios",usuarioServices.listarUsuarios());
+            model.addAttribute("usuarios",usuarioService.listarUsuarios());
 
             model.addAttribute("usuario", principal.getName());
 
@@ -116,7 +122,7 @@ import java.util.*;
             model.addAttribute("botonguardari18n", messageSource.getMessage("botonguardari18n", null, locale));
             model.addAttribute("botoncancelari18n", messageSource.getMessage("botoncancelari18n", null, locale));
 
-            model.addAttribute("roles", usuarioServices.listarRoles());
+            model.addAttribute("roles", usuarioService.listarRoles());
 
             return "/freemarker/crearusuario";
         }
@@ -126,7 +132,7 @@ import java.util.*;
         public String crearUsuario(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password, @RequestParam(name = "idRoles") long idRoles ){
 
             // Mando el id para que me busque el rol creado
-            Rol rolCreated = usuarioServices.encontrarRolPorId(idRoles);
+            Rol rolCreated = usuarioService.encontrarRolPorId(idRoles);
 
             Usuario usuarioToCreate = new Usuario();
             usuarioToCreate.setUsername(username);
@@ -138,7 +144,7 @@ import java.util.*;
             usuarioToCreate.setActive(true);
 
 
-            usuarioServices.crearUsuario(usuarioToCreate);
+            usuarioService.crearUsuario(usuarioToCreate);
 
             return "redirect:/usuario/";
         }
@@ -146,7 +152,7 @@ import java.util.*;
         @RequestMapping("/borrar")
         public String eliminarUsuario(@RequestParam(name = "id") long id){
 
-            usuarioServices.eliminarUsuario(id);
+            usuarioService.eliminarUsuario(id);
 
             return "redirect:/usuario/";
         }

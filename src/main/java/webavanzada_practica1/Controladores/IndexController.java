@@ -11,14 +11,14 @@ import java.security.Principal;
 public class IndexController {
 
     @Autowired
-    private SeguridadServices seguridadServices;
+    private SeguridadService seguridadService;
 
 
     @RequestMapping("/")
     public String index(Model model, Principal principal ){
 
 
-        seguridadServices.crearUsuarioAdmin();
+        seguridadService.crearUsuarioAdmin();
 
         model.addAttribute("titulo", "EJ CXA");
 
