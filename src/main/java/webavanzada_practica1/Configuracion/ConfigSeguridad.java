@@ -15,6 +15,60 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class ConfigSeguridad extends WebSecurityConfigurerAdapter {
 
     //Configuracion JPA para implementar Servicio Usuario
-    //@Autowired
+    @Autowired
+    private SeguridadServices seguridadServices;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    //Encriptando password
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder(){
+        BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder;
+    }
+
+    //Permite la carga de usurio en memoria
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+
+        //Conf para cargar usuario JPA asi agrego en BD
+        auth
+                .userDetailsService(seguridadServices)
+                .passwordEncoder(bCryptPasswordEncoder);
+    }
+
+    //Permisos a usuarios que puede acceder y que no
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+
+                //Cualquiera puede ver
+                .antMatchers("/","/css/**", "/js/**").permitAll()
+                .antMatchers("/dbconsole/**").permitAll()
+
+                // A que ruta accede cada rol
+                .antMatchers("/usuario/**").hasAnyRole("ADMIN")
+                .antMatchers("/cliente/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/equipo/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/familia/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/alquiler/**").hasAnyRole("ADMIN", "USER")
+                // .anyRequest().authenticated() //cualquier llamada debe ser validada
+                .and()
+                .formLogin()
+                .loginPage("/login") //estableciend ruta del loggin
+                // .failureUrl("/login?error")
+
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
+
+        // Es necesario deshabilitar seguridad de los frame int para H2.
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
+    }
 
 }

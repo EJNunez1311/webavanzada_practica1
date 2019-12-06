@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Cliente implements Serializable {
 
     @Id
-    @GeneratedValue // Aqui aplico generatedvalue para autoincrementar el id
+    @GeneratedValue
     private long id;
 
     private String nombre;
