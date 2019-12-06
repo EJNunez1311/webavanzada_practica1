@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import webavanzada_practica1.Servicios.SeguridadService;
 
 @Configurable
 @EnableGlobalMethodSecurity (securedEnabled = true) //Implementando SpringSecurity
@@ -16,7 +17,7 @@ public class ConfigSeguridad extends WebSecurityConfigurerAdapter {
 
     //Configuracion JPA para implementar Servicio Usuario
     @Autowired
-    private SeguridadServices seguridadServices;
+    private SeguridadService seguridadService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -35,7 +36,7 @@ public class ConfigSeguridad extends WebSecurityConfigurerAdapter {
 
         //Conf para cargar usuario JPA asi agrego en BD
         auth
-                .userDetailsService(seguridadServices)
+                .userDetailsService(seguridadService)
                 .passwordEncoder(bCryptPasswordEncoder);
     }
 

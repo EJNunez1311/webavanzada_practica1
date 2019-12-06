@@ -9,9 +9,7 @@ import java.util.List;
 
 public class AlquilerService {
 
-    // Por cada repositorio se debe de crear un servicio e implementar cada repositorio en su respectivo servicio
-    // ya que los servicios son los encargados de manejar las reglas de negocios y por lo tanto de aqui sera que se obtendran
-    // los datos para trabajar en los respectivos controladores
+    // Aqui se definen las reglas de negocio toda la logica para los controladores
     @Autowired
     private AlquilerRepositorio alquilerRepo;
 
