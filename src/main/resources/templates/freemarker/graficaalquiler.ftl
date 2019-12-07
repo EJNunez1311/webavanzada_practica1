@@ -166,7 +166,7 @@
               | Your Page Content Here |
               -------------------------->
             <div style="width: 55%">
-                <h3>Promedio de dias alquilados por familia y sub familia</h3>
+                <h3>Promedio de dias Alquilados por Familias y Sub-Familias</h3>
 
                 <!--Aqui esta el canvas en el que se manejara la grafica aqui le especifico un id para poder trabajar con el script de abajo
                  y asi configurar y poner en funcionamiento la grafica-->
