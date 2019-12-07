@@ -70,7 +70,7 @@ public class ClienteController {
     @RequestMapping("/creacion")
     public String creacionCliente(Model model, Locale locale){
 
-        model.addAttribute("titulo", "Electrodomesticos CXA");
+        model.addAttribute("titulo", "E&J CXA");
         model.addAttribute("agregarclientei18n", messageSource.getMessage("agregarclientei18n", null, locale));
         model.addAttribute("nombreclientei18n", messageSource.getMessage("nombreclientei18n", null, locale));
         model.addAttribute("apellidoclientei18n", messageSource.getMessage("apellidoclientei18n", null, locale));
@@ -110,7 +110,7 @@ public class ClienteController {
 
         //Aqui le mando el cliente que editaremos a la vista de editar cliente
         model.addAttribute("cliente",clienteToEdit);
-        model.addAttribute("titulo", "Electrodomesticos CXA");
+        model.addAttribute("titulo", "E&J CXA");
         model.addAttribute("editarclientei18n", messageSource.getMessage("editarclientei18n", null, locale));
         model.addAttribute("nombreclientei18n", messageSource.getMessage("nombreclientei18n", null, locale));
         model.addAttribute("apellidoclientei18n", messageSource.getMessage("apellidoclientei18n", null, locale));
@@ -155,7 +155,7 @@ public class ClienteController {
 
         Cliente clienteToShow = clienteService.encontrarClientePorId(id);
 
-        model.addAttribute("titulo", "Electrodomesticos CXA");
+        model.addAttribute("titulo", "E&J CXA");
 
         //Aqui mandare las distintas traducciones de i18n al index
         model.addAttribute("clientesi18n", messageSource.getMessage("clientesi18n", null, locale));

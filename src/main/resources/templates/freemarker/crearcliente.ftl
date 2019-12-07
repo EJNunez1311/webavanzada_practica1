@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="../../dist/css/skins/skin-blue.min.css">
 
 </head>
-<body background="../../pictures/fondo.png">
+<!--body background="../../pictures/fondo.png"-->
 
 
 <div class="container-form center">

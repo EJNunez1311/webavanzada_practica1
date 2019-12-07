@@ -59,7 +59,7 @@ public class FamiliaController {
         model.addAttribute("botonguardari18n", messageSource.getMessage("botonguardari18n", null, locale));
         model.addAttribute("botoncancelari18n", messageSource.getMessage("botoncancelari18n", null, locale));
 
-        model.addAttribute("titulo", "Electrodomesticos CXA");
+        model.addAttribute("titulo", "E&J CXA");
         model.addAttribute("familias", familiaService.listarFamilias());
 
         return "/freemarker/crearfamilia";

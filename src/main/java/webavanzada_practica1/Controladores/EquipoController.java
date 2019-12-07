@@ -35,6 +35,7 @@ public class EquipoController {
     @Autowired
     private MessageSource messageSource;
 
+    //creando directorio para guardar
     public static String uploadDirectory = System.getProperty("user.dir")+"/uploads";
 
 
@@ -79,7 +80,7 @@ public class EquipoController {
         model.addAttribute("familiaequipoindexi18n", messageSource.getMessage("familiaequipoindexi18n", null, locale));
         model.addAttribute("subfamiliaequipoindexi18n", messageSource.getMessage("subfamiliaequipoindexi18n", null, locale));
         model.addAttribute("opcionei18n", messageSource.getMessage("opcionei18n", null, locale));
-        model.addAttribute("titulo", "Electrodomesticos CXA");
+        model.addAttribute("titulo", "E&J CXA");
 
         model.addAttribute("equipos", equipoService.listarEquipos());
 
@@ -102,7 +103,7 @@ public class EquipoController {
         model.addAttribute("subfamiliaequipoi18n", messageSource.getMessage("subfamiliaequipoi18n", null, locale));
         model.addAttribute("botonguardari18n", messageSource.getMessage("botonguardari18n", null, locale));
         model.addAttribute("botoncancelari18n", messageSource.getMessage("botoncancelari18n", null, locale));
-        model.addAttribute("titulo", "Electrodomesticos CXA");
+        model.addAttribute("titulo", "E&J CXA");
 
         model.addAttribute("familias", familiaService.listarFamilias());
 
@@ -131,7 +132,7 @@ public class EquipoController {
     @RequestMapping("/edicion")
     public String edicionEquipo(Model model,Locale locale,  @RequestParam(name = "id") long id ){
 
-        model.addAttribute("titulo", "Electrodomesticos CXA");
+        model.addAttribute("titulo", "E&J CXA");
         model.addAttribute("editarequipoi18n", messageSource.getMessage("editarequipoi18n", null, locale));
         model.addAttribute("nombreequipoi18n", messageSource.getMessage("nombreequipoi18n", null, locale));
         model.addAttribute("marcaequipoi18n", messageSource.getMessage("marcaequipoi18n", null, locale));

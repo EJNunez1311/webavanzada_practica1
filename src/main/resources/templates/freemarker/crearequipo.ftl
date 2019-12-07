@@ -23,7 +23,7 @@
 
 <!-- Para el correcto funcionamiento del script escrito al final debo de especificarlo tanto en el tag body como en le
 de subfamilia-->
-<body onload="filtrarSubFamilias()" background="../../pictures/fondo.png">
+<!--body onload="filtrarSubFamilias()" background="../../pictures/fondo.png"-->
 
 <!--Cuando presione submit se ejecutara el accion especificado ahi que a su vez me creara un usuario y no hay necesidad
  de agregar los parametros a la url ya que el controlador obtiene los parametros mediante el name especificados en los input-->

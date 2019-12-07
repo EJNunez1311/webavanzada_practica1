@@ -87,7 +87,7 @@ public class UsuarioController {
     @RequestMapping("/")
     public String index(Model model, Principal principal, Locale locale){
 
-        model.addAttribute("titulo", "Electrodomesticos CXA");
+        model.addAttribute("titulo", "E&J CXA");
         model.addAttribute("clientesi18n", messageSource.getMessage("clientesi18n", null, locale));
         model.addAttribute("equiposi18n", messageSource.getMessage("equiposi18n", null, locale));
         model.addAttribute("negocioi18n", messageSource.getMessage("negocioi18n", null, locale));
@@ -112,7 +112,7 @@ public class UsuarioController {
     @RequestMapping("/creacion")
     public String creacionUsuario(Model model, Locale locale){
 
-        model.addAttribute("titulo", "Electrodomesticos CXA");
+        model.addAttribute("titulo", "E&J CXA");
         model.addAttribute("agregarusuarioi18n", messageSource.getMessage("agregarusuarioi18n", null, locale));
         model.addAttribute("nombreusuarioi18n", messageSource.getMessage("nombreusuarioi18n", null, locale));
         model.addAttribute("passwordusuarioi18n", messageSource.getMessage("passwordusuarioi18n", null, locale));

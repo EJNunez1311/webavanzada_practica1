@@ -76,7 +76,7 @@ public class AlquilerController {
         model.addAttribute("fechaentregaalquileri18n", messageSource.getMessage("fechaentregaalquileri18n", null, locale));
         model.addAttribute("botonguardari18n", messageSource.getMessage("botonguardari18n", null, locale));
         model.addAttribute("botoncancelari18n", messageSource.getMessage("botoncancelari18n", null, locale));
-        model.addAttribute("titulo", "Electrodomesticos CXA");
+        model.addAttribute("titulo", "E&J CXA");
 
         // Para poder crear un alquiler debo mandarle a la vista crearalquiler todos los equipos y clientes ya creados
         model.addAttribute("clientes", clienteService.listarClientes());
@@ -141,7 +141,7 @@ public class AlquilerController {
 
         Alquiler alquilerToShow = alquilerService.encontrarAlquilerPorId(id);
 
-        model.addAttribute("titulo", "Electrodomesticos CXA");
+        model.addAttribute("titulo", "E&J CXA");
         model.addAttribute("clientesi18n", messageSource.getMessage("clientesi18n", null, locale));
         model.addAttribute("equiposi18n", messageSource.getMessage("equiposi18n", null, locale));
         model.addAttribute("negocioi18n", messageSource.getMessage("negocioi18n", null, locale));

@@ -25,7 +25,7 @@
 
 </head>
 <!--Aqui agregare la imagen de fondo cuando tenga una decente para los formularios -->
-<body background="../../pictures/fondo.png">
+<!--body background="../../pictures/fondo.png"-->
 
 <div class="container-form center">
 
@@ -80,7 +80,7 @@
                 <label for="fecha" class="control-label col-md-3">${fechaalquileri18n}:</label>
 
                 <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                    <input type="date" name="fecha" min="2019-06-12" max="2019-08-29" required class="form-control" placeholder="Fecha...">
+                    <input type="date" name="fecha" min="2019-12-1" max="2020-12-31" required class="form-control" placeholder="Fecha...">
                 </div>
 
             </div>
@@ -90,7 +90,7 @@
                 <label for="fechaEntrega" class="control-label col-md-3">${fechaentregaalquileri18n}:</label>
 
                 <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                    <input type="date" name="fechaEntrega" min="2019-06-12" max="2019-08-29" required class="form-control" placeholder="Fecha de entrega...">
+                    <input type="date" name="fechaEntrega" min="2019-12-1" max="2020-12-31" required class="form-control" placeholder="Fecha de entrega...">
                 </div>
 
             </div>

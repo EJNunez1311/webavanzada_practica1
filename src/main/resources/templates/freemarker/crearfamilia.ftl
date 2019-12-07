@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="../../style/style.css">
 
 </head>
-<body background="../../pictures/fondo.png">
+<!--body background="../../pictures/fondo.png"-->
 
 
 <div class=" container-form-familia center">
