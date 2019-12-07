@@ -1,5 +1,10 @@
-package webavanzada_practica1.Controladores;
-
+package webavanzada_practica1.controladores;
+import webavanzada_practica1.entidades.Alquiler;
+import webavanzada_practica1.entidades.Cliente;
+import webavanzada_practica1.entidades.Equipo;
+import webavanzada_practica1.servicios.AlquilerService;
+import webavanzada_practica1.servicios.ClienteService;
+import webavanzada_practica1.servicios.EquipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -8,13 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import webavanzada_practica1.Entidades.Alquiler;
-import webavanzada_practica1.Entidades.Cliente;
-import webavanzada_practica1.Entidades.Equipo;
-import webavanzada_practica1.Servicios.AlquilerService;
-import webavanzada_practica1.Servicios.ClienteService;
-import webavanzada_practica1.Servicios.EquipoService;
-
 import java.security.Principal;
 import java.util.*;
 
@@ -22,10 +20,11 @@ import java.util.*;
 @RequestMapping("/alquiler")
 public class AlquilerController {
 
-
+    // En cada controlador se prepara el servicio para cada controlador para trabajar las funciones
     @Autowired
     private AlquilerService alquilerService;
 
+    //Mandandoa alquiler los clientes y equipos ya creados, por lo tanto instanciare equiposervices y clienteservices
     @Autowired
     private EquipoService equipoService;
 
@@ -39,10 +38,10 @@ public class AlquilerController {
     @RequestMapping("/")
     public String index(Model model, Principal principal, Locale locale) {
 
-        //Modelo para la vista.
-        model.addAttribute("titulo", "EJ CXA");
+        //Indicando el modelo que será pasado a la vista.
+        model.addAttribute("titulo", "E&J CXA");
 
-        //Traducciones de i18n al index
+        //Aqui mandare las distintas traducciones de i18n al index
         model.addAttribute("clientesi18n", messageSource.getMessage("clientesi18n", null, locale));
         model.addAttribute("equiposi18n", messageSource.getMessage("equiposi18n", null, locale));
         model.addAttribute("negocioi18n", messageSource.getMessage("negocioi18n", null, locale));
@@ -59,7 +58,10 @@ public class AlquilerController {
         model.addAttribute("opcionei18n", messageSource.getMessage("opcionei18n", null, locale));
 
         model.addAttribute("alquileres", alquilerService.listarAlquileres());
-        model.addAttribute("usuario", principal.getName());
+
+        // Comento esto para no tener que estar utilizando el login siempre
+         model.addAttribute("usuario", principal.getName());
+        //Ubicando la vista desde resources/templates
         return "/freemarker/alquiler";
     }
 
@@ -76,7 +78,7 @@ public class AlquilerController {
         model.addAttribute("botoncancelari18n", messageSource.getMessage("botoncancelari18n", null, locale));
         model.addAttribute("titulo", "Electrodomesticos CXA");
 
-        // Mando a la vista los clientes y equipos para crear alquiler
+        // Para poder crear un alquiler debo mandarle a la vista crearalquiler todos los equipos y clientes ya creados
         model.addAttribute("clientes", clienteService.listarClientes());
         model.addAttribute("equipos", equipoService.listarEquipos());
 
@@ -100,19 +102,27 @@ public class AlquilerController {
 
         diasAlquilados.add(dias);
 
-        // Actualizando existencia de los equipos
+        // Aqui me encargo de restar la cantidad existencia
         for (Long equipo : idEquipos) {
 
-
+            // busco el equipo
             Equipo equipoAlquilado = equipoService.encontrarEquipoPorId(equipo);
 
+            //Aqui le estoy mandando a la familia de este equipo los dias que este equipo duro alquilado
+            // Y como esto esta dentro de un foreach esto se ira agregando a las demas familias
+            // de los demas equipos
             equipoAlquilado.getFamilia().setDiasAlquiler(diasAlquilados);
-            //Existencia
+
+            //resta su cantidad de existencia
             equipoAlquilado.setCantidadExistencia(equipoAlquilado.getCantidadExistencia() - 1);
 
+            //Obtuve las fechas sus dias y a estos dias los reste para obtener los dias que
+            // tuvo alquilado el equipo y esto los multiplico por el costo por dia y esto lo voy sumand en la variable total
             total  += dias * equipoAlquilado.getCostoAlquilerPorDia();
+
             equipoService.crearEquipo(equipoAlquilado);
 
+            //agregando a la vista
             listaEquiposAlquilados.add(equipoAlquilado);
         }
 
@@ -148,7 +158,7 @@ public class AlquilerController {
 
         model.addAttribute("alquiler", alquilerToShow);
 
-        //Equipos via el alquiler
+        // envio los equipos que estan almacenado en el alquiler mediante la lista equipos
         model.addAttribute("equipos", alquilerToShow.getEquipos());
 
         return "/freemarker/mostrarequiposalquilados";
@@ -158,7 +168,7 @@ public class AlquilerController {
     @RequestMapping("/borrar")
     public String eliminarAlquiler(@RequestParam(name = "id") long id) {
 
-         alquilerService.eliminarAlquiler(id);
+        alquilerService.eliminarAlquiler(id);
 
         return "redirect:/alquiler/";
     }

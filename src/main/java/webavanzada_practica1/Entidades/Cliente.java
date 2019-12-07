@@ -1,5 +1,4 @@
-package webavanzada_practica1.Entidades;
-
+package webavanzada_practica1.entidades;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,7 +8,7 @@ import java.io.Serializable;
 public class Cliente implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue //Aplico generatedvalue para autoincrementar el id
     private long id;
 
     private String nombre;
@@ -31,6 +30,7 @@ public class Cliente implements Serializable {
         this.telefono = telefono;
         this.foto = foto;
     }
+
 
     public long getId() {
         return id;

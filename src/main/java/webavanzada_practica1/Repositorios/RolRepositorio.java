@@ -1,6 +1,5 @@
-package webavanzada_practica1.Repositorios;
-
-import webavanzada_practica1.Entidades.Rol;
+package webavanzada_practica1.repositorios;
+import webavanzada_practica1.entidades.Rol;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

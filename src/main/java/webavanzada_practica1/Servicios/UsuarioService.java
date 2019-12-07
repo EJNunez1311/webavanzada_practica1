@@ -1,14 +1,14 @@
-package webavanzada_practica1.Servicios;
-
+package webavanzada_practica1.servicios;
+import webavanzada_practica1.entidades.Rol;
+import webavanzada_practica1.entidades.Usuario;
+import webavanzada_practica1.repositorios.RolRepositorio;
+import webavanzada_practica1.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import webavanzada_practica1.Entidades.Rol;
-import webavanzada_practica1.Entidades.Usuario;
-import webavanzada_practica1.Repositorios.RolRepositorio;
-import webavanzada_practica1.Repositorios.UsuarioRepositorio;
-
+import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.*;
 
+@Service
 public class UsuarioService {
 
     @Autowired
@@ -40,6 +40,7 @@ public class UsuarioService {
     public void eliminarUsuario(long id){
 
         Usuario usuarioToDelete = usuarioRepo.findUsuarioById(id);
+
         usuarioRepo.delete(usuarioToDelete);
     }
 

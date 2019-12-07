@@ -1,6 +1,8 @@
-package webavanzada_practica1.Controladores;
-
-
+package webavanzada_practica1.controladores;
+import webavanzada_practica1.entidades.Cliente;
+import webavanzada_practica1.servicios.AlquilerService;
+import webavanzada_practica1.servicios.ClienteService;
+import webavanzada_practica1.servicios.SubirArchivoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -9,11 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import webavanzada_practica1.Entidades.Cliente;
-import webavanzada_practica1.Servicios.AlquilerService;
-import webavanzada_practica1.Servicios.ClienteService;
-import webavanzada_practica1.Servicios.SubirArchivoService;
-
 import java.security.Principal;
 import java.util.Locale;
 
@@ -27,21 +24,23 @@ public class ClienteController {
     @Autowired
     private AlquilerService alquilerService;
 
-    // Para cargar imagenes y archivos
+    // Instancio este servicio para trabajar los archivos o imagenes
     @Autowired
     private SubirArchivoService subirArchivoService;
 
-    //Necesaaria para la internalizacion
+    //Instancio esta dependencia para la internacionalizacion
     @Autowired
     private MessageSource messageSource;
 
-    // Ruta donde se guardaran los archivos
+    // El directorio donde se subiran nuestros archivos
     public static String uploadDirectory = System.getProperty("user.dir")+"/uploads";
 
-       @RequestMapping("/")
+    // Para conseguir el nombre de usuario mediante spring security debo especificar un objeto de la clase principal aqui
+    // para implementar las traducciones de i18n uso Locale
+    @RequestMapping("/")
     public String index(Model model, Principal principal, Locale locale){
 
-        model.addAttribute("titulo", "Electrodomesticos CXA");
+        model.addAttribute("titulo", "E&J CXA");
         model.addAttribute("clientesi18n", messageSource.getMessage("clientesi18n", null, locale));
         model.addAttribute("equiposi18n", messageSource.getMessage("equiposi18n", null, locale));
         model.addAttribute("negocioi18n", messageSource.getMessage("negocioi18n", null, locale));
@@ -61,7 +60,7 @@ public class ClienteController {
 
         model.addAttribute("clientes", clienteService.listarClientes());
 
-        //Mnadando nombre de usuario a la vista
+        // Mando a vista el nombre del usuario que esta logeado mediante principal consigo esos datos
         model.addAttribute("usuario", principal.getName());
 
         return "/freemarker/cliente";
@@ -71,7 +70,7 @@ public class ClienteController {
     @RequestMapping("/creacion")
     public String creacionCliente(Model model, Locale locale){
 
-        model.addAttribute("titulo", "EJ CXA");
+        model.addAttribute("titulo", "Electrodomesticos CXA");
         model.addAttribute("agregarclientei18n", messageSource.getMessage("agregarclientei18n", null, locale));
         model.addAttribute("nombreclientei18n", messageSource.getMessage("nombreclientei18n", null, locale));
         model.addAttribute("apellidoclientei18n", messageSource.getMessage("apellidoclientei18n", null, locale));
@@ -87,12 +86,16 @@ public class ClienteController {
 
 
     @RequestMapping(value = "/crear", method = RequestMethod.POST)
-    public String crearCliente(@RequestParam(name = "files") MultipartFile[] files, @RequestParam(name = "nombre") String nombre, @RequestParam(name = "apellido") String apellido, @RequestParam(name = "cedula") String cedula, @RequestParam(name = "direccion") String direccion, @RequestParam(name = "telefono") String telefono){
+    public String crearCliente(@RequestParam(name = "files") MultipartFile[] files, @RequestParam(name = "nombre") String nombre, @RequestParam(name = "apellido") String apellido, @RequestParam(name = "cedula") String cedula, @RequestParam(name = "direccion") String direccion,  @RequestParam(name = "telefono") String telefono){
 
-        //Devuelve un string con el nombre de la imagen insertada en el formulario
+        //Primero manejo la imagen esta funcion me devuelve un string con el nombre
+        // del archivo que fue insertado en el formulario
         String nombreDeLaFoto = subirArchivoService.almacenarAndDepurarImagen(files,uploadDirectory);
 
+        // Agregando los parametros al cliente, no es necesario agregar el parametro id ya que se autogenerara cuando especificamos la entidad
         Cliente cliente = new Cliente(nombre,apellido,cedula,direccion,telefono,nombreDeLaFoto);
+
+        // Insertando cliente
         clienteService.crearCliente(cliente);
 
         return "redirect:/cliente/";
@@ -102,8 +105,10 @@ public class ClienteController {
     @RequestMapping(value = "/edicion" )
     public String edicionCliente(Model model, Locale locale,  @RequestParam(name = "id") long id ){
 
+        //Obtengo el cliente que voy a editar
         Cliente clienteToEdit = clienteService.encontrarClientePorId(id);
 
+        //Aqui le mando el cliente que editaremos a la vista de editar cliente
         model.addAttribute("cliente",clienteToEdit);
         model.addAttribute("titulo", "Electrodomesticos CXA");
         model.addAttribute("editarclientei18n", messageSource.getMessage("editarclientei18n", null, locale));
@@ -119,16 +124,18 @@ public class ClienteController {
         return "/freemarker/editarcliente";
     }
 
-
+    // obtengo el cliente de la vista con requesparam y le mando el parametro con /?id=cliente.id
+    // desde la vista hacia esta funcion mediante la url
     @RequestMapping("/editar")
     public String editarCliente(@RequestParam(name = "files") MultipartFile[] files, @RequestParam(name = "id") long id,@RequestParam(name = "nombre") String nombre, @RequestParam(name = "apellido") String apellido, @RequestParam(name = "cedula") String cedula, @RequestParam(name = "direccion") String direccion,  @RequestParam(name = "telefono") String telefono){
 
-
+        //nombre de la imagen
         String fotoName = subirArchivoService.almacenarAndDepurarImagen(files,uploadDirectory);
 
-
+        // Busco el cliente y lo almaceno encontrado en el objeto clienteToEdit
         Cliente clienteToEdit = clienteService.encontrarClientePorId(id);
 
+        //Agrego los campos editados mediante las propiedades set de la clase
         clienteToEdit.setApellido(apellido);
         clienteToEdit.setCedula(cedula);
         clienteToEdit.setDireccion(direccion);
@@ -136,6 +143,9 @@ public class ClienteController {
         clienteToEdit.setFoto(fotoName);
         clienteToEdit.setTelefono(telefono);
 
+        clienteService.crearCliente(clienteToEdit);
+
+        //Ubicando la vista desde resources/templates
         return "redirect:/cliente/";
     }
 
@@ -164,11 +174,11 @@ public class ClienteController {
         return "/freemarker/mostraralquileres";
     }
 
+
     @RequestMapping( value = "/borrar")
     public String eliminarCliente(@RequestParam(name = "id") long id){
 
-        // Aqui elimino el cliente mandandole el id obtenido mediante la url en el requesparam
-        clienteService.eliminarCliente(id);
+          clienteService.eliminarCliente(id);
 
         return "redirect:/cliente/";
     }

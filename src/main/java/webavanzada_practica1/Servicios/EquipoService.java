@@ -1,12 +1,12 @@
-package webavanzada_practica1.Servicios;
-
+package webavanzada_practica1.servicios;
+import webavanzada_practica1.entidades.Equipo;
+import webavanzada_practica1.repositorios.EquipoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import webavanzada_practica1.Entidades.Equipo;
-import webavanzada_practica1.Repositorios.EquipoRepositorio;
-
+import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Service
 public class EquipoService {
 
     @Autowired
@@ -16,7 +16,7 @@ public class EquipoService {
     @Transactional
     public void crearEquipo(Equipo equipo){
 
-        equipoRepo.save(equipo);
+         equipoRepo.save(equipo);
     }
 
 

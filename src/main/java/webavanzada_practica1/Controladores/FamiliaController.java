@@ -1,5 +1,6 @@
-package webavanzada_practica1.Controladores;
-
+package webavanzada_practica1.controladores;
+import webavanzada_practica1.entidades.Familia;
+import webavanzada_practica1.servicios.FamiliaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -7,9 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import webavanzada_practica1.Entidades.Familia;
-import webavanzada_practica1.Servicios.FamiliaService;
-
 import java.security.Principal;
 import java.util.Locale;
 
@@ -27,7 +25,7 @@ public class FamiliaController {
     @RequestMapping("/")
     public String index(Model model, Principal principal, Locale locale){
 
-        model.addAttribute("titulo", "EJ CXA");
+        model.addAttribute("titulo", "E&J CXA");
 
         //Aqui mandare las distintas traducciones de i18n al index
         model.addAttribute("clientesi18n", messageSource.getMessage("clientesi18n", null, locale));
@@ -67,11 +65,16 @@ public class FamiliaController {
         return "/freemarker/crearfamilia";
     }
 
+    // Para controlar que se pueda mandar el valor false en subfamilia
+    // indico el required false y este me permite dejar el checkbox vacio lo que me dara un valor falso
 
     @RequestMapping(value = "/crear", method = RequestMethod.POST)
-    public String crearFamilia(@RequestParam(name = "nombre") String nombre, @RequestParam(name = "subFamilia", required = false) boolean subFamilia, @RequestParam(name = "idFamilia", required = false) Long idFamilia){
+    public String crearFamilia(@RequestParam(name = "nombre") String nombre, @RequestParam(name = "subFamilia", required = false) boolean subFamilia,@RequestParam(name = "idFamilia", required = false) Long idFamilia){
 
+        //Seleccionando un fmilia o sub familia, pues o se creara una familia normal o se creara una
+        // subfamilia que va a tener una familia padre, por lo tanto usare un if aqui
 
+        // creara una familia normal
         if (subFamilia == false){
 
             Familia familiaToCreate = new Familia(nombre,subFamilia);
@@ -79,8 +82,8 @@ public class FamiliaController {
             familiaService.crearFamilia(familiaToCreate);
         }
 
+        // Creo la subfamilia con su respectiva familia padre
         if (subFamilia == true){
-
 
             Familia familiaToFind = familiaService.encontrarFamiliaPorId(idFamilia);
 

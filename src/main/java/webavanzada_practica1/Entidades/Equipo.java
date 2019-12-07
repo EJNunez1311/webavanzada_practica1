@@ -1,5 +1,4 @@
-package webavanzada_practica1.Entidades;
-
+package webavanzada_practica1.entidades;
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -14,27 +13,30 @@ public class Equipo implements Serializable {
     private String marca;
     private String imagenEquipo;
     private int cantidadExistencia;
-    private int costoAlquilerporDia;
+    private int costoAlquilerPorDia;
 
-    //Relacion 1 a Mucho con Familia y SubFamilia
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    // Relaciones 1 a mucho con familia y subFamilia.
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Familia familia;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private Familia subfamilia;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Familia subFamilia;
 
-    public Equipo(String nombre, String marca, String imagenEquipo, int cantidadExistencia, int costoAlquilerporDia, Familia familia, Familia subfamilia) {
+
+    public Equipo(String nombre, String marca, String imagenEquipo, int cantidadExistencia, int costoAlquilerPorDia, Familia familia, Familia subFamilia) {
         this.nombre = nombre;
         this.marca = marca;
         this.imagenEquipo = imagenEquipo;
         this.cantidadExistencia = cantidadExistencia;
-        this.costoAlquilerporDia = costoAlquilerporDia;
+        this.costoAlquilerPorDia = costoAlquilerPorDia;
         this.familia = familia;
-        this.subfamilia = subfamilia;
+        this.subFamilia = subFamilia;
     }
 
-    public Equipo(){}
+    public Equipo() {
+    }
+
 
     public long getId() {
         return id;
@@ -76,12 +78,12 @@ public class Equipo implements Serializable {
         this.cantidadExistencia = cantidadExistencia;
     }
 
-    public int getCostoAlquilerporDia() {
-        return costoAlquilerporDia;
+    public int getCostoAlquilerPorDia() {
+        return costoAlquilerPorDia;
     }
 
-    public void setCostoAlquilerporDia(int costoAlquilerporDia) {
-        this.costoAlquilerporDia = costoAlquilerporDia;
+    public void setCostoAlquilerPorDia(int costoAlquilerPorDia) {
+        this.costoAlquilerPorDia = costoAlquilerPorDia;
     }
 
     public Familia getFamilia() {
@@ -92,11 +94,11 @@ public class Equipo implements Serializable {
         this.familia = familia;
     }
 
-    public Familia getSubfamilia() {
-        return subfamilia;
+    public Familia getSubFamilia() {
+        return subFamilia;
     }
 
-    public void setSubfamilia(Familia subfamilia) {
-        this.subfamilia = subfamilia;
+    public void setSubFamilia(Familia subFamilia) {
+        this.subFamilia = subFamilia;
     }
 }

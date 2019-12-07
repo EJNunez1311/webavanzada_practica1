@@ -3,13 +3,14 @@ package webavanzada_practica1;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import webavanzada_practica1.Controladores.ClienteController;
-import webavanzada_practica1.Controladores.EquipoController;
+import webavanzada_practica1.controladores.ClienteController;
+import webavanzada_practica1.controladores.EquipoController;
+
 
 import java.io.File;
 
 //Necesito para trabajar con archivos debo especificar esto
-@ComponentScan({"webavanzada_practica1", "webavanzada_practica1.Controladores"})
+@ComponentScan({"webavanzada_practica1", "webavanzada_practica1.controladores"})
 @SpringBootApplication
 public class WebavanzadaPractica1Application {
 

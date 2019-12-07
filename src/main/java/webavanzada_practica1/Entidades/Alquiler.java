@@ -1,5 +1,4 @@
-package webavanzada_practica1.Entidades;
-
+package webavanzada_practica1.entidades;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -7,23 +6,22 @@ import java.util.List;
 
 @Entity
 public class Alquiler implements Serializable {
-
     @Id
     @GeneratedValue
     private long id;
 
     private Date fecha;
     private Date fechaEntrega;
+    private int total;
 
-    // Uno a Mucho
-    @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    // Relacion uno a mucho
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Cliente cliente;
 
-    //Mucho a Mucho
-    @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    // Relacion mucho a mucho
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Equipo> equipos;
 
-    private int total;
 
     public Alquiler(Date fecha, Date fechaEntrega, Cliente cliente, List<Equipo> equipos, int total) {
         this.fecha = fecha;
@@ -32,7 +30,10 @@ public class Alquiler implements Serializable {
         this.equipos = equipos;
         this.total = total;
     }
-    public Alquiler(){}
+
+    public Alquiler() {
+    }
+
 
     public long getId() {
         return id;

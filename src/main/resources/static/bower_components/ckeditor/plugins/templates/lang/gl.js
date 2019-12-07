@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang("templates","gl",{button:"Modelos",emptyListMsg:"(Non hai entidades definidos)",insertOption:"Substituír o contido actual",options:"Opcións de entidades",selectPromptMsg:"Seleccione o modelo a abrir no editor",title:"Modelos de contido"});

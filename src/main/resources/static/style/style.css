@@ -1,0 +1,80 @@
+.container-custom {
+  width: 900px;  
+  height: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background: white;
+ 
+}
+
+
+/*Esta clase sirve para centrar cualquier cosa desde contenedores hasta objetos*/
+
+.center {
+  margin: auto;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
+}
+
+
+/*Esta dos clases se encargan de darle estilo a los formularios de create y edit de mi aplicacion*/
+
+.container-form{
+    text-align: center;
+	background-color:black;
+	width:50%;
+	height:70%;
+	border: 1px solid #d4d4d4;
+	justify-content: center;
+	align-items: center;
+	color:white;
+}
+
+.container-form-familia{
+	text-align: center;
+	background-color:black;
+	width:50%;
+	height:50%;
+	border: 1px solid #d4d4d4;
+	justify-content: center;
+	align-items: center;
+	color:white;
+}
+
+
+
+/*Clase extra para los formularios de equipo ya que esto son mas grandes y por lo tanto la clase de arriba no aplica del todo*/
+.container-form-equipo {
+    text-align: center;
+	background-color:black;
+	width:55%;
+	height:85%;
+	border: 1px solid #d4d4d4;
+	justify-content: center;
+	align-items: center;
+	color:white;
+}
+
+.container-form-usuario {
+    text-align: center;
+	background-color:black;
+	width:50%;
+	height:50%;
+	border: 1px solid #d4d4d4;
+	justify-content: center;
+	align-items: center;
+	color:white;
+}
+
+.container-form .form-control {
+    background: #f7f7f7 none repeat scroll 0 0;
+    border: 1px solid #d4d4d4;
+    border-radius: 4px;
+	
+
+}
+

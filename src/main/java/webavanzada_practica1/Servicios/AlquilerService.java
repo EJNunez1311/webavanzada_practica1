@@ -1,23 +1,24 @@
-package webavanzada_practica1.Servicios;
-
+package webavanzada_practica1.servicios;
+import webavanzada_practica1.entidades.Alquiler;
+import webavanzada_practica1.repositorios.AlquilerRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import webavanzada_practica1.Entidades.Alquiler;
-import webavanzada_practica1.Repositorios.AlquilerRepositorio;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Service
 public class AlquilerService {
 
-    // Aqui se definen las reglas de negocio toda la logica para los controladores
+    // Por cada repositorio se debe de crear un servicio e implementar cada repositorio en su respectivo servicio
     @Autowired
     private AlquilerRepositorio alquilerRepo;
 
+    // Aqui manejare las funciones que utilizare en la vista para el manejo de datos, las funciones que especificare
 
     @Transactional
     public void crearAlquiler(Alquiler alquiler){
 
-        alquilerRepo.save(alquiler);
+         alquilerRepo.save(alquiler);
     }
 
 
@@ -31,6 +32,8 @@ public class AlquilerService {
         return alquilerRepo.findAlquilerById(id);
 
     }
+
+
     public void eliminarAlquiler(long id){
 
         Alquiler alquilerToDelete = alquilerRepo.findAlquilerById(id);

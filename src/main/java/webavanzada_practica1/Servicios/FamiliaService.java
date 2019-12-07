@@ -1,12 +1,12 @@
-package webavanzada_practica1.Servicios;
-
+package webavanzada_practica1.servicios;
+import webavanzada_practica1.entidades.Familia;
+import webavanzada_practica1.repositorios.FamiliaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import webavanzada_practica1.Entidades.Familia;
-import webavanzada_practica1.Repositorios.FamiliaRepositorio;
-
+import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Service
 public class FamiliaService {
 
     @Autowired
@@ -16,7 +16,7 @@ public class FamiliaService {
     @Transactional
     public void crearFamilia(Familia familia){
 
-        familiaRepo.save(familia);
+         familiaRepo.save(familia);
     }
 
 

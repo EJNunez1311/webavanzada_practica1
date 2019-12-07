@@ -1,23 +1,28 @@
-package webavanzada_practica1.Entidades;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+package webavanzada_practica1.entidades;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
+@Entity
 public class Usuario implements Serializable {
     @Id
     @GeneratedValue
     private long id;
 
+    // El @ column me quita el error de que se creen dos usuarios, con esto se evitan que se cree, pero en la vista me tira
+    // un error, pero aun asi el programa seguira funcionando correctamente, esta es una solucion temporal
+    @Column(name="username", unique=true)
     private String username;
 
     private String password;
     private boolean active;
 
-    @ManyToMany
-    private Set<Rol> roles;
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    private
+    Set<Rol> roles;
+
+
+    public Usuario(){ }
 
     public Usuario(String username, String password, boolean active, Set<Rol> roles) {
         this.username = username;
@@ -25,6 +30,7 @@ public class Usuario implements Serializable {
         this.active = active;
         this.roles = roles;
     }
+
 
     public long getId() {
         return id;
@@ -65,4 +71,6 @@ public class Usuario implements Serializable {
     public void setRoles(Set<Rol> roles) {
         this.roles = roles;
     }
+
+
 }

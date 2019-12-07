@@ -1,12 +1,12 @@
-package webavanzada_practica1.Servicios;
-
+package webavanzada_practica1.servicios;
+import webavanzada_practica1.entidades.Cliente;
+import webavanzada_practica1.repositorios.ClienteRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import webavanzada_practica1.Entidades.Cliente;
-import webavanzada_practica1.Repositorios.ClienteRepositorio;
-
+import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Service
 public class ClienteService {
 
     @Autowired
@@ -16,7 +16,7 @@ public class ClienteService {
     @Transactional
     public void crearCliente(Cliente cliente){
 
-        clienteRepo.save(cliente);
+         clienteRepo.save(cliente);
     }
 
 
@@ -34,8 +34,8 @@ public class ClienteService {
 
     public void eliminarCliente(long id){
 
-        Cliente clienteToDelete = clienteRepo.findClienteById(id);
+       Cliente clienteToDelete = clienteRepo.findClienteById(id);
 
-        clienteRepo.delete(clienteToDelete);
+       clienteRepo.delete(clienteToDelete);
     }
 }
