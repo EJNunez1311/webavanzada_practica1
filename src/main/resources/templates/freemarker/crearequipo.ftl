@@ -99,14 +99,14 @@ de subfamilia-->
 
 
 
-                <div class="form-group">
-                    <label for="subFamilia" class="control-label col-md-3">${subfamiliaequipoi18n}:</label>
+            <div class="form-group">
+                <label for="subFamilia" class="control-label col-md-3">${subfamiliaequipoi18n}:</label>
 
-                    <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                        <select class="form-control" name="subFamilia" id="subFamilia">
-                            <#--Esto se autogenerara-->
-                        </select>
-                    </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                    <select class="form-control" name="subFamilia" id="subFamilia">
+                        <#--Esto se autogenerara-->
+                    </select>
+                </div>
 
 
             </div>

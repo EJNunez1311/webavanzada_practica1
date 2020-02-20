@@ -50,10 +50,8 @@ public class ConfiguracionDeSeguridad extends WebSecurityConfigurerAdapter { // 
 
                 // Rol admin y user podran entrar
                 .antMatchers("/usuario/**").hasAnyRole("ADMIN")
-                .antMatchers("/cliente/**").hasAnyRole("ADMIN", "USER")
-                .antMatchers("/equipo/**").hasAnyRole("ADMIN", "USER")
-                .antMatchers("/familia/**").hasAnyRole("ADMIN", "USER")
-                .antMatchers("/alquiler/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/cliente/**").hasAnyRole("ADMIN", "EMPLEADO")
+                .antMatchers("/plan/**").hasAnyRole("ADMIN", "EMPLEADO", "CLIENT")
                // .anyRequest().authenticated() //cualquier llamada debe ser validada
                 .and()
                 .formLogin()
